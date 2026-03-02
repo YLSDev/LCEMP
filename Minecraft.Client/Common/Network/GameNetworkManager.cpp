@@ -1396,8 +1396,7 @@ void CGameNetworkManager::CreateSocket( INetworkPlayer *pNetworkPlayer, bool loc
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
 	Socket *socket = NULL;
-	int userIdx = pNetworkPlayer->GetUserIndex();
-	shared_ptr<MultiplayerLocalPlayer> mpPlayer = (userIdx >= 0 && userIdx < XUSER_MAX_COUNT) ? pMinecraft->localplayers[userIdx] : nullptr;
+	shared_ptr<MultiplayerLocalPlayer> mpPlayer = pMinecraft->localplayers[pNetworkPlayer->GetUserIndex()];
 	if( localPlayer && mpPlayer != NULL && mpPlayer->connection != NULL)
 	{
 		// If we already have a MultiplayerLocalPlayer here then we are doing a session type change
