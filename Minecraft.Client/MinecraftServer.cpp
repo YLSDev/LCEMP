@@ -50,7 +50,7 @@
 #include "PS3\PS3Extras\ShutdownManager.h"
 #include "ServerCommandDispatcher.h"
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 #include "..\Minecraft.Server\ServerCommands.h"
 #endif
 
@@ -275,7 +275,7 @@ bool MinecraftServer::initServer(__int64 seed, NetworkGameInitData *initData, DW
 
 		g_NetworkManager.ServerReady();	// 4J added
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		{
 			extern QNET_STATE _iQNetStubState;
 			_iQNetStubState = QNET_STATE_GAME_PLAY;
@@ -1087,7 +1087,7 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 			}
 		}
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		{
 			__int64 doneTime = System::currentTimeMillis();
 			app.DebugPrintf("Done! For help, type \"help\" or \"?\"");
@@ -1546,7 +1546,7 @@ void MinecraftServer::tick()
     }
 	Entity::tickExtraWandering();	// 4J added
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	g_NetworkManager.DoWork();
 	WinsockNetLayer::FlushPendingData();
 #endif
@@ -1584,7 +1584,7 @@ void MinecraftServer::handleConsoleInputs()
 		AUTO_VAR(it, consoleInput.begin());
         ConsoleInput *input = *it;
 		consoleInput.erase(it);
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		HandleServerCommand(input->msg, input->source, this);
 		delete input;
 #else

@@ -130,14 +130,14 @@ void PlayerConnection::disconnect(DisconnectPacket::eDisconnectReason reason)
 	if(getWasKicked())
 	{
 		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerKickedFromGame) ) );
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		app.DebugPrintf("%ls was kicked from the game", player->name.c_str());
 #endif
 	}
 	else
 	{
 		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerLeftGame) ) );
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		app.DebugPrintf("%ls left the game", player->name.c_str());
 #endif
 	}
