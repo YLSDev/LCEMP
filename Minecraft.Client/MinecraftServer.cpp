@@ -51,7 +51,7 @@
 #include "ServerCommandDispatcher.h"
 
 #ifdef WITH_SERVER_CODE
-#include "..\Minecraft.Server\ServerCommands.h"
+#include "..\Minecraft.Server\Commands\ServerCommands.h"
 #endif
 
 #include "..\Minecraft.World\BiomeSource.h"
