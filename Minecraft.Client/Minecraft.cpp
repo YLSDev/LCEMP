@@ -3273,8 +3273,8 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 		if (iPad == 0 && wheel == 0 && g_KBMInput.IsKBMActive())
 		{
 			int mw = g_KBMInput.GetMouseWheel();
-			if (mw > 0) wheel = -1;
-			else if (mw < 0) wheel = 1;
+			if (mw < 0) wheel = -1;
+			else if (mw > 0) wheel = 1;
 		}
 #endif
 		if (wheel != 0)

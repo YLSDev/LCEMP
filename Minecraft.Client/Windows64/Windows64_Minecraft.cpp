@@ -523,6 +523,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 						instance->player->turn(mdx, mdy);
 				}
 			}
+			int wheel = g_KBMInput.GetMouseWheel();
+			if (iPad == 0 && wheel == 0 && g_KBMInput.IsKBMActive())
+			{
+				int mw = g_KBMInput.GetMouseWheel();
+				if (mw < 0) wheel = -1;
+				else if (mw > 0) wheel = 1;
+			}
+			
+			if (wheel < 0)
+				player->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_RIGHT_SCROLL;
+			else if (wheel > 0)
+				player->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_LEFT_SCROLL;
 #endif
 		}
 		break;
