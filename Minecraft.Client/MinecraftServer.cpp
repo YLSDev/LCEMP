@@ -50,8 +50,8 @@
 #include "PS3\PS3Extras\ShutdownManager.h"
 #include "ServerCommandDispatcher.h"
 
-#ifdef _DEDICATED_SERVER
-#include "..\Minecraft.Server\ServerCommands.h"
+#ifdef WITH_SERVER_CODE
+#include "..\Minecraft.Server\Commands\ServerCommands.h"
 #endif
 
 #include "..\Minecraft.World\BiomeSource.h"
@@ -275,7 +275,7 @@ bool MinecraftServer::initServer(__int64 seed, NetworkGameInitData *initData, DW
 
 		g_NetworkManager.ServerReady();	// 4J added
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		{
 			extern QNET_STATE _iQNetStubState;
 			_iQNetStubState = QNET_STATE_GAME_PLAY;
@@ -893,12 +893,16 @@ void MinecraftServer::stopServer()
 	// 4J-PB - If the primary player has signed out, then don't attempt to save anything
 	
 	// also need to check for a profile switch here - primary player signs out, and another player signs in before dismissing the dash
-#ifdef _DURANGO
+#ifdef WITH_SERVER_CODE
+	{
+		{
+#elif defined(_DURANGO)
 	// On Durango check if the primary user is signed in OR mid-sign-out
 	if(ProfileManager.GetUser(0, true) != nullptr)
 #else
 	if((m_bPrimaryPlayerSignedOut==false) && ProfileManager.IsSignedIn(ProfileManager.GetPrimaryPad()))
 #endif
+#ifndef WITH_SERVER_CODE
 	{
 #if defined(_XBOX_ONE) || defined(__ORBIS__)
 		// Always save on exit! Except if saves are disabled.
@@ -907,6 +911,7 @@ void MinecraftServer::stopServer()
 		// if trial version or saving is disabled, then don't save anything
 		if(m_saveOnExit && ProfileManager.IsFullVersion() && (!StorageManager.GetSaveDisabled()))
 		{	
+#endif
 			if (players != NULL)
 			{
 				players->saveAll(Minecraft::GetInstance()->progressRenderer, true);
@@ -1087,7 +1092,7 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 			}
 		}
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		{
 			__int64 doneTime = System::currentTimeMillis();
 			app.DebugPrintf("Done! For help, type \"help\" or \"?\"");
@@ -1546,7 +1551,7 @@ void MinecraftServer::tick()
     }
 	Entity::tickExtraWandering();	// 4J added
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	g_NetworkManager.DoWork();
 	WinsockNetLayer::FlushPendingData();
 #endif
@@ -1584,7 +1589,7 @@ void MinecraftServer::handleConsoleInputs()
 		AUTO_VAR(it, consoleInput.begin());
         ConsoleInput *input = *it;
 		consoleInput.erase(it);
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		HandleServerCommand(input->msg, input->source, this);
 		delete input;
 #else

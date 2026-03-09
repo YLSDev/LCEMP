@@ -5046,7 +5046,7 @@ void Minecraft::handleClientTextureReceived(const wstring &textureName)
 
 unsigned int Minecraft::getCurrentTexturePackId()
 {
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	return 0;
 #else
 	return skins->getSelected()->getId();
@@ -5055,7 +5055,7 @@ unsigned int Minecraft::getCurrentTexturePackId()
 
 ColourTable *Minecraft::getColourTable()
 {
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	return NULL;
 #else
 	TexturePack *selected = skins->getSelected();

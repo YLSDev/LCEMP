@@ -70,6 +70,7 @@ typedef struct _GameSessionData
 
 	bool isReadyToJoin;
 	bool isJoinable;
+	bool isDedicatedServer;
 
 	char hostIP[64];
 	int hostPort;
@@ -88,6 +89,7 @@ typedef struct _GameSessionData
 		subTexturePackId = 0;
 		isReadyToJoin = false;
 		isJoinable = true;
+		isDedicatedServer = false;
 		memset(hostIP, 0, sizeof(hostIP));
 		hostPort = 0;
 		memset(hostName, 0, sizeof(hostName));

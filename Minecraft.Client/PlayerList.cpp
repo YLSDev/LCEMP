@@ -236,7 +236,7 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 		//server->players->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(L"�e" + playerEntity->name + L" joined the game.") ) );
 		broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerJoinedGame) ) );
 
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 		app.DebugPrintf("%ls joined the game", player->name.c_str());
 #endif
 

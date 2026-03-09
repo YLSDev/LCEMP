@@ -790,7 +790,7 @@ int CGameNetworkManager::JoinFromInvite_SignInReturned(void *pParam,bool bContin
 
 void CGameNetworkManager::UpdateAndSetGameSessionData(INetworkPlayer *pNetworkPlayerLeaving)
 {
-#ifndef _DEDICATED_SERVER
+#ifndef WITH_SERVER_CODE
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 	TexturePack *tPack = pMinecraft->skins->getSelected();
 	s_pPlatformNetworkManager->SetSessionTexturePackParentId( tPack->getDLCParentPackId() );

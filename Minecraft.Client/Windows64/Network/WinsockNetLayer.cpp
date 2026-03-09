@@ -796,6 +796,11 @@ bool WinsockNetLayer::StartAdvertising(int gamePort, const wchar_t *hostName, un
 	s_advertiseData.texturePackParentId = texPackId;
 	s_advertiseData.subTexturePackId = subTexId;
 	s_advertiseData.isJoinable = 0;
+#ifdef WITH_SERVER_CODE
+	s_advertiseData.isDedicatedServer = 1;
+#else
+	s_advertiseData.isDedicatedServer = 0;
+#endif
 	s_hostGamePort = gamePort;
 	LeaveCriticalSection(&s_advertiseLock);
 
@@ -1009,6 +1014,7 @@ DWORD WINAPI WinsockNetLayer::DiscoveryThreadProc(LPVOID param)
 				s_discoveredSessions[i].texturePackParentId = broadcast->texturePackParentId;
 				s_discoveredSessions[i].subTexturePackId = broadcast->subTexturePackId;
 				s_discoveredSessions[i].isJoinable = (broadcast->isJoinable != 0);
+				s_discoveredSessions[i].isDedicatedServer = (broadcast->isDedicatedServer != 0);
 				s_discoveredSessions[i].lastSeenTick = now;
 				memcpy(s_discoveredSessions[i].playerNames, broadcast->playerNames, sizeof(broadcast->playerNames));
 				found = true;
@@ -1036,6 +1042,7 @@ DWORD WINAPI WinsockNetLayer::DiscoveryThreadProc(LPVOID param)
 			session.texturePackParentId = broadcast->texturePackParentId;
 			session.subTexturePackId = broadcast->subTexturePackId;
 			session.isJoinable = (broadcast->isJoinable != 0);
+			session.isDedicatedServer = (broadcast->isDedicatedServer != 0);
 			session.lastSeenTick = now;
 			memcpy(session.playerNames, broadcast->playerNames, sizeof(broadcast->playerNames));
 			s_discoveredSessions.push_back(session);

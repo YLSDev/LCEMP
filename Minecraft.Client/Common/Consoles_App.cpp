@@ -242,7 +242,7 @@ void CMinecraftApp::DebugPrintf(const char *szFormat, ...)
 	vsnprintf(buf, sizeof(buf), szFormat, ap);
 	va_end(ap);
 	OutputDebugStringA(buf);
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	bool hasContent = false;
 	for (const char *p = buf; *p; p++) {
 		if (*p != ' ' && *p != '\t' && *p != '\n' && *p != '\r' && *p != '=') {
@@ -324,7 +324,7 @@ LPCWSTR CMinecraftApp::GetString(int iID)
 {
 	//return L"Değişiklikler ve Yenilikler";
 	//return L"ÕÕÕÕÖÖÖÖ";
-#ifdef _DEDICATED_SERVER
+#ifdef WITH_SERVER_CODE
 	if (!app.m_stringTable) return L"";
 #endif
 	return app.m_stringTable->getString(iID);

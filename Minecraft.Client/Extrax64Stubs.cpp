@@ -306,6 +306,8 @@ bool IQNet::s_isHosting = true;
 
 QNET_STATE _iQNetStubState = QNET_STATE_IDLE;
 
+bool g_connectedToDedicatedServer = false;
+
 void Win64_SetupRemoteQNetPlayer(IQNetPlayer *player, BYTE smallId, bool isHost, bool isLocal)
 {
 	player->m_smallId = smallId;
@@ -354,7 +356,13 @@ IQNetPlayer *IQNet::GetLocalPlayerByUserIndex(DWORD dwUserIndex)
 }
 static bool Win64_IsActivePlayer(IQNetPlayer *p, DWORD index)
 {
-	if (index == 0) return true;
+	if (index == 0)
+	{
+		extern bool g_connectedToDedicatedServer;
+		if (g_connectedToDedicatedServer && !IQNet::s_isHosting)
+			return false;
+		return true;
+	}
 	if (p->GetCustomDataValue() != 0) return true;
 	return (p->m_isRemote && p->m_gamertag[0] != 0);
 }

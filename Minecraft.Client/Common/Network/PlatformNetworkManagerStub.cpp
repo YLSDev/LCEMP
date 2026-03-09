@@ -356,6 +356,9 @@ bool CPlatformNetworkManagerStub::LeaveGame(bool bMigrateHost)
 
 	m_bLeavingGame = true;
 
+	extern bool g_connectedToDedicatedServer;
+	g_connectedToDedicatedServer = false;
+
 #ifdef _WINDOWS64
 	WinsockNetLayer::StopAdvertising();
 #endif
@@ -407,8 +410,10 @@ void CPlatformNetworkManagerStub::HostGame(int localUsersMask, bool bOnlineGame,
 	IQNet::m_player[0].m_isRemote = false;
 	IQNet::m_player[0].m_isHostPlayer = true;
 	IQNet::s_playerCount = 1;
+#ifndef WITH_SERVER_CODE
 	extern wchar_t g_Win64UsernameW[17];
 	wcscpy_s(IQNet::m_player[0].m_gamertag, 32, g_Win64UsernameW);
+#endif
 #endif
 
 	_HostGame( localUsersMask, publicSlots, privateSlots );
@@ -453,6 +458,9 @@ int CPlatformNetworkManagerStub::JoinGame(FriendSessionInfo *searchResult, int l
 	IQNet::m_player[0].m_isRemote = true;
 	IQNet::m_player[0].m_isHostPlayer = true;
 	wcsncpy_s(IQNet::m_player[0].m_gamertag, 32, searchResult->data.hostName, _TRUNCATE);
+
+	extern bool g_connectedToDedicatedServer;
+	g_connectedToDedicatedServer = searchResult->data.isDedicatedServer;
 
 	WinsockNetLayer::StopDiscovery();
 
@@ -793,6 +801,7 @@ void CPlatformNetworkManagerStub::SearchForGames()
 		info->data.subTexturePackId = lanSessions[i].subTexturePackId;
 		info->data.isReadyToJoin = lanSessions[i].isJoinable;
 		info->data.isJoinable = lanSessions[i].isJoinable;
+		info->data.isDedicatedServer = lanSessions[i].isDedicatedServer;
 		strncpy_s(info->data.hostIP, sizeof(info->data.hostIP), lanSessions[i].hostIP, _TRUNCATE);
 		info->data.hostPort = lanSessions[i].hostPort;
 		wcsncpy_s(info->data.hostName, XUSER_NAME_SIZE, lanSessions[i].hostName, _TRUNCATE);

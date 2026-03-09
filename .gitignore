@@ -2,6 +2,8 @@
 # Build outputs
 # ===========================================
 x64/
+x64_Server_Release/
+x64_Server_Debug/
 Minecraft.Client/x64/
 Minecraft.World/x64_Debug/
 Minecraft.World/x64_Release/

@@ -32,6 +32,7 @@ struct Win64LANBroadcast
 	DWORD texturePackParentId;
 	BYTE subTexturePackId;
 	BYTE isJoinable;
+	BYTE isDedicatedServer;
 	char playerNames[WIN64_LAN_BROADCAST_PLAYERS][XUSER_NAME_SIZE];
 };
 #pragma pack(pop)
@@ -48,6 +49,7 @@ struct Win64LANSession
 	unsigned int texturePackParentId;
 	unsigned char subTexturePackId;
 	bool isJoinable;
+	bool isDedicatedServer;
 	DWORD lastSeenTick;
 	char playerNames[WIN64_LAN_BROADCAST_PLAYERS][XUSER_NAME_SIZE];
 };
