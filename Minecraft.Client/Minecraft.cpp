@@ -1488,9 +1488,9 @@ void Minecraft::run_middle()
 								localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_CRAFTING;
 
 							int wheel = g_KBMInput.GetMouseWheel();
-							if (wheel > 0)
+							if (wheel < 0)
 								localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_RIGHT_SCROLL;
-							else if (wheel < 0)
+							else if (wheel > 0)
 								localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_LEFT_SCROLL;
 
 							for (int slot = 0; slot < 9; slot++)
